@@ -23,7 +23,6 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ui.componenets.CustomButton
 import com.example.myapplication.ui.theme.backgroundDarkGray
-import com.example.myapplication.ui.componenets.inuptForm
 
 @Composable
 fun Recuperar(navController: NavController) {
@@ -65,14 +64,14 @@ fun contentRecuperar(paddingValues: PaddingValues) {
             var mostrarTexto by remember { mutableStateOf(false) }
             Column(Modifier.width(columnWidth)) {
 
-                inuptForm("E-Mail")
-                CustomButton(
-                    text = "Recuperar",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                    onClick = { mostrarTexto = !mostrarTexto } //mostrar texto debajo
-                )
+//                inuptForm("E-Mail")
+//                CustomButton(
+//                    text = "Recuperar",
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .padding(top = 10.dp),
+//                    onClick = { mostrarTexto = !mostrarTexto } //mostrar texto debajo
+//                )
 
 
             }

@@ -23,7 +23,6 @@ import com.example.myapplication.R
 import com.example.myapplication.ui.componenets.ClickableTextCustom
 import com.example.myapplication.ui.componenets.LoginOptions
 import com.example.myapplication.ui.theme.backgroundDarkGray
-import com.example.myapplication.ui.componenets.inuptForm
 import com.example.myapplication.ui.theme.backgroundButtonBlue
 import com.example.myapplication.ui.componenets.CustomButton
 

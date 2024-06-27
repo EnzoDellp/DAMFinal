@@ -3,9 +3,12 @@ package com.example.myapplication
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.DB.UserDatabaseHelper
+import com.example.myapplication.DB.UserRepository
 import com.example.myapplication.Login.Login
 import com.example.myapplication.ManuPrincipal.MenuPrincipal
 import com.example.myapplication.Recuperar.Recuperar
@@ -25,16 +28,26 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyApplicationTheme {
                 val navController = rememberNavController()
+                val context= LocalContext.current
+                val userDatabaseHelper=UserDatabaseHelper(context)
+                val userRepository=UserRepository(userDatabaseHelper)
+
+                //Crear usuario admin
+                val username="admin"
+                val password="admin"
+                val lastname="admin"
+                val email="admin"
+                val adminAdd:Long=userRepository.addUser(username,password,lastname,email)
 
                 NavHost(navController = navController, startDestination = "clubDeportivoWelcome") {
                     composable(route = "clubDeportivoWelcome") {
                         clubDeportivoWelcome(navController)
                     }
                     composable(route = "crearCuenta") {
-                        crearCuenta(navController)
+                        crearCuenta(navController,userRepository)
                     }
                     composable(route = "Login") {
-                        Login(navController)
+                        Login(navController,userRepository)
                     }
                     composable(route = "MenuPrincipal") {
                         MenuPrincipal(navController)

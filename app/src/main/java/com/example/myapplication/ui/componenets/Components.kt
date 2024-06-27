@@ -1,5 +1,7 @@
 package com.example.myapplication.ui.componenets
 
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.material3.Text
@@ -22,14 +24,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import com.example.myapplication.DB.UserRepository
 import com.example.myapplication.ui.theme.backgroundDarkGray
 import com.example.myapplication.ui.theme.backgroundButtonBlue
 import com.example.myapplication.ui.theme.backgroundColorInput
@@ -48,58 +54,41 @@ fun LoginOptions(painterResource: Int, contentDescriptor: String) {
 }
 
 @Composable
-fun inuptForm(
-//    Crea un label y un input
-    labelinput: String = "label",
+fun InputForm(
+    label: String = "Label",
+    text: String,
+    onValueChange: (String) -> Unit,
     visualTransformation: VisualTransformation = VisualTransformation.None
 ) {
-    var text by remember {
-        mutableStateOf("")
-    }
     Column(
-        Modifier
-            .fillMaxWidth(),
-
-        ) {
+        Modifier.fillMaxWidth()
+    ) {
         Text(
-
-            text = "$labelinput: ",
+            text = "$label: ",
             color = Color.White,
             fontSize = 22.sp,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(start = 16.dp, bottom = 3.dp)
         )
 
-        Row(
-            Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
-
+        TextField(
+            value = text,
+            onValueChange = onValueChange,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            maxLines = 1,
+            textStyle = TextStyle(color = Color.Black),
+            colors = TextFieldDefaults.colors(
+                focusedIndicatorColor = Color.Black,
+                unfocusedContainerColor = Color.LightGray,
+                unfocusedIndicatorColor = Color.Black.copy(alpha = 0.5f),
+                disabledIndicatorColor = Color.Black.copy(alpha = 0.2f),
+            ),
+            visualTransformation = visualTransformation
         )
-        {
-
-            TextField(
-
-                value = text,
-                onValueChange = { newText -> text = newText },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 16.dp, end = 16.dp),
-                maxLines = 1,
-                textStyle = TextStyle(color = Color.White),
-
-                colors = TextFieldDefaults.colors(
-                    focusedContainerColor = backgroundColorInput,
-                    unfocusedContainerColor = backgroundColorInput,
-                    disabledContainerColor = backgroundColorInput,
-                ),
-                visualTransformation = visualTransformation
-
-            )
-        }
     }
 }
-
 
 @Composable
 fun CustomButton(
@@ -189,4 +178,175 @@ fun CustomTextArea(
 
     }
 
+}
+//LoginLogic
+@Composable
+fun LoginScreen(userRepository: UserRepository, navController: NavController) {
+    var username by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    val context = LocalContext.current
+
+    Column(
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        TextField(
+            value = username,
+            onValueChange = { username = it },
+            label = { Text(text = "Usuario") },
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = backgroundColorInput,
+                unfocusedContainerColor = backgroundColorInput,
+                disabledContainerColor = backgroundColorInput,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
+                disabledTextColor = Color.White
+            ),
+            textStyle = TextStyle(color = Color.White)
+        )
+        TextField(
+            value = password,
+            onValueChange = { password = it },
+            label = { Text(text = "Contraseña") },
+            visualTransformation = PasswordVisualTransformation(),
+            colors = TextFieldDefaults.colors(
+                focusedContainerColor = backgroundColorInput,
+                unfocusedContainerColor = backgroundColorInput,
+                disabledContainerColor = backgroundColorInput,
+                focusedTextColor = Color.White,
+                unfocusedTextColor = Color.White,
+                disabledTextColor = Color.White
+            ),
+            textStyle = TextStyle(color = Color.White)
+        )
+        Button(
+            onClick = {
+                val cursor = userRepository.getUser(username, password)
+                if (cursor.count > 0) {
+                    navController.navigate("MenuPrincipal")
+                } else {
+                    Toast.makeText(context, "Usuario o Contraseña Incorrectos", Toast.LENGTH_SHORT)
+                        .show()
+                }
+
+            },
+
+            Modifier.padding(top = 16.dp),
+            shape = RectangleShape,
+            colors = ButtonDefaults.buttonColors(containerColor = Color.Blue)
+        ) {
+            Text(text = "Login", color = Color.White)
+        }
+    }
+}
+
+//CrearCuentaLogic
+@Composable
+fun CrearCuentaScreen(userRepository: UserRepository, navController: NavController) {
+    var username by remember { mutableStateOf("") }
+    var apellido by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var confirmPassword by remember { mutableStateOf("") }
+
+    val context = LocalContext.current
+
+    Column(
+        modifier = Modifier
+            .padding(top = 25.dp)
+            .width(300.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        InputForm(
+            label = "Usuario",
+            text = username,
+            onValueChange = { username = it }
+        )
+        InputForm(
+            text = apellido,
+            label = "Apellido",
+            onValueChange = { apellido = it }
+        )
+        InputForm(
+            text = email,
+            label = "Email",
+            onValueChange = { email = it }
+        )
+        InputForm(
+            text = password,
+            label = "Contraseña",
+            visualTransformation = PasswordVisualTransformation(),
+            onValueChange = { password = it }
+        )
+        InputForm(
+            text = confirmPassword,
+            visualTransformation = PasswordVisualTransformation(),
+            label = "Repetir Contraseña",
+            onValueChange = { confirmPassword = it }
+        )
+
+        Button(
+            onClick = {
+                if (username.isNotEmpty()
+                    && apellido.isNotEmpty()
+                    && email.isNotEmpty()
+                    && password.isNotEmpty()
+                    && confirmPassword.isNotEmpty()
+                ) {
+                    if (password == confirmPassword) {
+                        Log.d("CrearCuentaScreen", "Intentando crear usuario con:")
+                        Log.d(
+                            "CrearCuentaScreen",
+                            "Username: $username, Apellido: $apellido, Email: $email, Password: $password"
+                        )
+
+                        val result = userRepository.addUser(username, apellido, password, email)
+                        if (result != -1L) {
+                            Log.d(
+                                "CrearCuentaScreen",
+                                "Usuario creado correctamente con ID: $result"
+                            )
+                            Toast.makeText(
+                                context,
+                                "Usuario Creado Correctamente",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            navController.popBackStack()
+
+                        } else {
+                            Log.d(
+                                "CrearCuentaScreen",
+                                "Error al crear usuario. Resultado de inserción: $result"
+                            )
+                            Toast.makeText(context, "Error al crear usuario", Toast.LENGTH_SHORT)
+                                .show()
+                        }
+                    } else {
+                        Log.d("CrearCuentaScreen", "Las contraseñas no coinciden")
+                        Toast.makeText(context, "Las contraseñas no coinciden", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                } else {
+                    Log.d(
+                        "CrearCuentaScreen",
+                        "Campos incompletos. Username: $username, Apellido: $apellido, Email: $email, Password: $password, ConfirmPassword: $confirmPassword"
+                    )
+                    Toast.makeText(
+                        context,
+                        "Por favor complete todos los campos",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            },
+            modifier = Modifier.padding(top = 18.dp),
+            shape = RectangleShape,
+            colors = ButtonDefaults.buttonColors(containerColor = backgroundColorInput)
+        ) {
+            Text("Crear Cuenta")
+        }
+    }
 }

@@ -22,7 +22,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.R
 import com.example.myapplication.ui.componenets.LoginOptions
 import com.example.myapplication.ui.theme.backgroundDarkGray
-import com.example.myapplication.ui.componenets.inuptForm
 import com.example.myapplication.ui.theme.backgroundButtonBlue
 import com.example.myapplication.ui.componenets.CustomButton
 
@@ -58,21 +57,21 @@ fun pagarCuotaContent(paddingValues: PaddingValues, navController: NavController
                 )
             }
 
-            inuptForm("Monto")
-            Text(
-                text = "Elige una forma de Pago",
-                color = Color.White,
-                modifier = Modifier
-                    .padding(top = 12.dp, bottom = 12.dp)
-            )
-            Row() {
-                LoginOptions(painterResource = R.drawable.paypal, contentDescriptor = "PayPal")
-                LoginOptions(
-                    painterResource = R.drawable.ethereum_ic,
-                    contentDescriptor = "Bitcoin"
-                )
-                LoginOptions(painterResource = R.drawable.bitcoin_ic, contentDescriptor = "ETH")
-            }
+//            inuptForm("Monto")
+//            Text(
+//                text = "Elige una forma de Pago",
+//                color = Color.White,
+//                modifier = Modifier
+//                    .padding(top = 12.dp, bottom = 12.dp)
+//            )
+//            Row() {
+//                LoginOptions(painterResource = R.drawable.paypal, contentDescriptor = "PayPal")
+//                LoginOptions(
+//                    painterResource = R.drawable.ethereum_ic,
+//                    contentDescriptor = "Bitcoin"
+//                )
+//                LoginOptions(painterResource = R.drawable.bitcoin_ic, contentDescriptor = "ETH")
+//            }
 
         }
         item {

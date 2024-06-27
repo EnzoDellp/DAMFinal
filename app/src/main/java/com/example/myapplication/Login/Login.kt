@@ -1,5 +1,6 @@
 package com.example.myapplication.Login
 
+import com.example.myapplication.DB.UserRepository
 import androidx.compose.foundation.background
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -10,34 +11,30 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.myapplication.DB.UserDatabaseHelper
 import com.example.myapplication.ui.componenets.ClickableTextCustom
-import com.example.myapplication.ui.componenets.CustomButton
 import com.example.myapplication.ui.theme.backgroundDarkGray
-import com.example.myapplication.ui.componenets.inuptForm
-import com.example.myapplication.ui.theme.backgroundButtonBlue
-
+import com.example.myapplication.ui.componenets.LoginScreen
 
 @Composable
-fun Login(navController: NavController) {
+fun Login(navController: NavController, userRepository: UserRepository) {
     Scaffold(
         content = { paddingValues ->
-            ContentLogin(paddingValues, navController)
+            ContentLogin(paddingValues, navController, userRepository)
         }
     )
 }
 
 @Composable
-fun ContentLogin(paddingValues: PaddingValues, navController: NavController) {
-
+fun ContentLogin(paddingValues: PaddingValues, navController: NavController, userRepository: UserRepository) {
     LazyColumn(
         Modifier
             .fillMaxSize()
@@ -45,7 +42,6 @@ fun ContentLogin(paddingValues: PaddingValues, navController: NavController) {
             .background(backgroundDarkGray),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-
     ) {
         item {
             Row(
@@ -64,33 +60,8 @@ fun ContentLogin(paddingValues: PaddingValues, navController: NavController) {
             }
         }
         item {
-            Column(
-                Modifier
-                    .padding(top = 75.dp)
-
-
-            ) {
-                inuptForm("Usuario")
-                inuptForm("Contraseña", visualTransformation = PasswordVisualTransformation())
-            }
-        }
-        item {
-            Row(
-                Modifier
-                    .fillMaxSize()
-                    .padding(top = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                CustomButton(
-                    "Iniciar Sesión",
-                    backgroundColor = backgroundButtonBlue,
-                    contentColor = Color.White,
-                    shape = RectangleShape,
-                    modifier = Modifier.padding(top = 16.dp),
-                    onClick = { navController.navigate("MenuPrincipal") }
-                )
-            }
+            // LoginLogic
+            LoginScreen(userRepository = userRepository, navController = navController)
         }
         item {
             Column(
@@ -108,7 +79,6 @@ fun ContentLogin(paddingValues: PaddingValues, navController: NavController) {
                         fontSize = 18.sp
                     ),
                     onClick = { navController.navigate("Recuperar") }
-
                 )
 
                 ClickableTextCustom(
@@ -120,7 +90,6 @@ fun ContentLogin(paddingValues: PaddingValues, navController: NavController) {
                     ),
                     modifier = Modifier.padding(top = 10.dp),
                     onClick = { navController.navigate("crearCuenta") }
-
                 )
             }
         }
@@ -131,5 +100,9 @@ fun ContentLogin(paddingValues: PaddingValues, navController: NavController) {
 @Composable
 fun LoginPreview() {
     val navController = rememberNavController()
-    Login(navController)
+    val context= LocalContext.current
+    val userDatabaseHelper=UserDatabaseHelper(context)
+    val userRepository = UserRepository(userDatabaseHelper)
+
+    Login(navController, userRepository)
 }

@@ -25,7 +25,6 @@ import androidx.navigation.compose.rememberNavController
 import com.example.myapplication.ManuPrincipal.ContentMenu
 import com.example.myapplication.ui.componenets.CustomButton
 import com.example.myapplication.ui.componenets.CustomTextArea
-import com.example.myapplication.ui.componenets.inuptForm
 import com.example.myapplication.ui.theme.backgroundDarkGray
 
 import com.example.myapplication.ui.theme.backgroundButtonBlue
@@ -67,9 +66,9 @@ fun crearRutinaContent(paddingValues: PaddingValues, navController: NavControlle
                     modifier = Modifier.padding(top = 16.dp)
                 )
 
-                inuptForm("nombre de la rutina")
-
-                inuptForm("Musculo Principal")
+//                inuptForm("nombre de la rutina")
+//
+//                inuptForm("Musculo Principal")
 
             }
         }
