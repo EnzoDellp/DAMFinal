@@ -66,7 +66,7 @@ fun ContentMenu(paddingValues: PaddingValues, navController: NavController) {
 
                 ) {
                 CustomButton(
-                    text = "Pagar Cuota",
+                    text = "Agregar Socio",
                     backgroundColor = backgroundButtonBlue,
                     modifier = Modifier.fillMaxWidth(),
                     onClick = { navController.navigate("pagarCuota") }
@@ -80,12 +80,12 @@ fun ContentMenu(paddingValues: PaddingValues, navController: NavController) {
                     onClick = { navController.navigate("vencimientos") }
                 )
                 CustomButton(
-                    text = "Crear Rutina",
+                    text = "Gestión Socios",
                     backgroundColor = backgroundButtonBlue,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(top = 16.dp),
-                    onClick = { navController.navigate("crearRutina") }
+                    onClick = { navController.navigate("GestionSocios") }
                 )
                 CustomButton(
                     text = "Mis Rutinas",

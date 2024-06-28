@@ -16,6 +16,15 @@ class UserDatabaseHelper(context: Context) :
         const val COLUMN_LASTNAME = "lastname"
         const val COLUMN_EMAIL = "email"
 
+        //talabSocios
+        const val TABLE_SOCIOS="socios"
+        const val COLUMN_ID_SOCIOS="socioId"
+        const val COLUMN_USUERNAME_SOCIO="socioName"
+        const val COLUMN_LASTNAME_SOCIO="socioLastname"
+        const val COLUMN_EMAIL_SOCIO="socioEmail"
+        const val COLUMN_DNI_SOCIO="socioDNI"
+        const val COLUMN_FECHA_SOCIO="socioFecha"
+        const val COLUMN_ES_SOCIO="esSocio"
 
     }
 
@@ -29,12 +38,26 @@ class UserDatabaseHelper(context: Context) :
                 "$COLUMN_EMAIL TEXT)"
         db.execSQL(createUsersTable)
 
-
+        //TablaSocios
+        val createSociosTable = "CREATE TABLE $TABLE_SOCIOS (" +
+                "$COLUMN_ID_SOCIOS INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                "$COLUMN_USUERNAME_SOCIO TEXT, " +
+                "$COLUMN_LASTNAME_SOCIO TEXT, " +
+                "$COLUMN_EMAIL_SOCIO TEXT, " +
+                "$COLUMN_DNI_SOCIO TEXT, " +
+                "$COLUMN_FECHA_SOCIO TEXT," +
+                "$COLUMN_ES_SOCIO INTEGER)"
+        db.execSQL(createSociosTable)
     }
+
+
+
+
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
         if (oldVersion < newVersion) {
             db.execSQL("DROP TABLE IF EXISTS $TABLE_USERS")
+            db.execSQL("DROP TABLE IF EXISTS $TABLE_SOCIOS")
             onCreate(db)
         }
 

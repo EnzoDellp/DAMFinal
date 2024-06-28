@@ -1,4 +1,4 @@
-package com.example.myapplication.pagarCuota
+package com.example.myapplication.AgregarSocio
 
 import androidx.compose.foundation.background
 import androidx.compose.material3.Text
@@ -10,21 +10,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.myapplication.R
-import com.example.myapplication.ui.componenets.ClickableTextCustom
-import com.example.myapplication.ui.componenets.LoginOptions
 import com.example.myapplication.ui.theme.backgroundDarkGray
-import com.example.myapplication.ui.theme.backgroundButtonBlue
-import com.example.myapplication.ui.componenets.CustomButton
 
 @Composable
 fun pagoResponse(navController: NavController) {
