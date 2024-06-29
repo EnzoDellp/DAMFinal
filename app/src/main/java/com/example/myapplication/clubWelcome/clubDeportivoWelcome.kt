@@ -74,7 +74,7 @@ fun ContentWelcome(paddingValues: PaddingValues, navController: NavController) {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(id = R.drawable.ic_launcher_background),
+                    painter = painterResource(id = R.drawable.logo_club),
                     contentDescription = "Logo Club Deportivo",
                     modifier = Modifier.size(170.dp)
                 )
